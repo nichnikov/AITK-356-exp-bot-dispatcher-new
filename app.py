@@ -33,10 +33,13 @@ async def search(data: SearchData):
             tasks.append(asyncio.ensure_future(searching(session, url, send_data)))
         try:
             taking_responses = await asyncio.gather(*tasks)
+            print("taking_responses:", taking_responses)
         except:
+            logger.exception("ClientSession is broken")
             return {"templateId": 0, "templateText": ""}
     logger.info("Searching results are {}".format(str([x for x in taking_responses])))
     for response in taking_responses:
+        print(response)
         if response["templateId"] != 0:
             return {"templateId": response["templateId"], "templateText": response["templateText"]}
     

@@ -2,7 +2,7 @@
   "service_host": "0.0.0.0",
   "service_port": 8080,
   "urls_for_searching": ["http://srv01.nlp.dev.msk2.sl.amedia.tech:4010/api/search", "http://srv01.nlp.dev.msk2.sl.amedia.tech:4011/api/search",
-    "http://srv01.nlp.dev.msk2.sl.amedia.tech::4012/api/search"],
+    "http://srv01.nlp.dev.msk2.sl.amedia.tech:4012/api/search"],
   "bss_bert_url": "http://srv01.nlp.dev.msk2.sl.amedia.tech::4002/api/search",
   "bss_pubs": [6, 9],
   "timeout_seconds": 0.5

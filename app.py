@@ -51,4 +51,4 @@ async def search(data: SearchData):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host=parameters.sservice_host, port=parameters.service_port)
+    uvicorn.run(app, host=parameters.service_host, port=parameters.service_port)

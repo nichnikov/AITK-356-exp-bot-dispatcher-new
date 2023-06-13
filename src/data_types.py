@@ -1,8 +1,8 @@
-from pydantic import BaseModel, Field, List
-
+from pydantic import BaseModel, Field
+from typing import List
 
 class Parameters(BaseModel):
-    service_host : int
+    service_host : str
     service_port : int
     urls_for_searching : List[str]
     bss_bert_url : str

@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  dispatcher:
+    image: expert-bot-dispatcher
+    ports:
+      - "4005:8080"
+    volumes:
+      - ./dispatcher:/app/data
+    restart: unless-stopped
+
+  greetings:
+    image: expert-bot-gensim-dict:var3
+    ports:
+      - "4010:4002"
+    volumes:
+      - ./greetings:/app/data
+    restart: unless-stopped
+
+  queries:
+    image: expert-bot-gensim-dict:var3
+    ports:
+      - "4011:4002"
+    volumes:
+      - ./queries:/app/data
+    restart: unless-stopped

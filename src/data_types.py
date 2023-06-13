@@ -1,5 +1,13 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, List
 
+
+class Parameters(BaseModel):
+    service_host : int
+    service_port : int
+    urls_for_searching : List[str]
+    bss_bert_url : str
+    bss_pubs : List[int]
+    timeout_seconds : float
 
 class SearchData(BaseModel):
     """"""

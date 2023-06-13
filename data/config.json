@@ -2,5 +2,7 @@
   "service_host": "0.0.0.0",
   "service_port": 8080,
   "urls_for_searching": ["http://0.0.0.0:4002/api/search", "http://0.0.0.0:4002/api/search",
-    "http://0.0.0.0:4002/api/search", "http://0.0.0.0:4002/api/search", "http://0.0.0.0:4002/api/search"]
+    "http://0.0.0.0:4002/api/search", "http://0.0.0.0:4002/api/search", "http://0.0.0.0:4002/api/search"],
+  "bss_bert_url": "",
+  "bss_pubs": []
   }

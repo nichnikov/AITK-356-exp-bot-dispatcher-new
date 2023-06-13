@@ -2,7 +2,7 @@ import os
 import json
 import logging.config
 from pathlib import Path
-
+from src.data_types import Parameters
 
 def get_project_root() -> Path:
     """"""
@@ -21,8 +21,6 @@ logger = logging.getLogger(os.path.basename(__file__))
 logger.setLevel(logging.INFO)
 
 with open(os.path.join(root, "data", "config.json")) as json_config_file:
-    config = json.load(json_config_file)
+    config_dict = json.load(json_config_file)
 
-service_host = config["service_host"]
-service_port = config["service_port"]
-urls_for_searching = config["urls_for_searching"]
+parameters = Parameters.parse_obj(config_dict)

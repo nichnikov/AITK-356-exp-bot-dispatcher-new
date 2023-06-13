@@ -5,11 +5,10 @@ https://stackoverflow.com/questions/72815312/request-a-lot-of-urls-with-asyncio
 import uvicorn
 import aiohttp
 import asyncio
+import requests
 from fastapi import FastAPI
 from src.config import (logger,
-                        service_port,
-                        service_host,
-                        urls_for_searching)
+                        parameters)
 from src.data_types import SearchData
 
 app = FastAPI(title="Expert-Bot-Dispatcher")
@@ -24,31 +23,32 @@ async def searching(session, url, data):
 @app.post("/api/search")
 async def search(data: SearchData):
     """searching etalon by  incoming text"""
-    results = []
     send_data = {"pubid": data.pubid, "text": data.text}
     conn = aiohttp.TCPConnector(limit=100)
-    timeout_seconds = 0.5
-    session_timeout = aiohttp.ClientTimeout(sock_connect=timeout_seconds, sock_read=timeout_seconds)
+    session_timeout = aiohttp.ClientTimeout(sock_connect=parameters.timeout_seconds, sock_read=parameters.timeout_seconds)
     logger.info("Input text for searching {} with pubid {}".format(data.text, data.pubid))
     async with aiohttp.ClientSession(connector=conn, timeout=session_timeout) as session:
         tasks = []
-        for url in urls_for_searching:
+        for url in parameters.urls_for_searching:
             tasks.append(asyncio.ensure_future(searching(session, url, send_data)))
         try:
             taking_responses = await asyncio.gather(*tasks)
         except:
             return {"templateId": 0, "templateText": ""}
+    logger.info("Searching results are {}".format(str([x for x in taking_responses])))
     for response in taking_responses:
-        results.append(response)
-    logger.info("Searching results are {}".format(str(results)))
-    if results:
-        for d in results:
-            if d["templateId"] != 0:
-                return {"templateId": d["templateId"], "templateText": d["templateText"]}
-        return {"templateId": 0, "templateText": ""}
+        if response["templateId"] != 0:
+            return {"templateId": response["templateId"], "templateText": response["templateText"]}
+    
+    if data.pubid in parameters.bss_pubs:
+        res = requests.post(parameters.bss_bert_url, json=send_data)
+        if res.json() is not None:
+            return res.json()
+        else:
+            return {"templateId": 0, "templateText": ""}
     else:
         return {"templateId": 0, "templateText": ""}
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host=service_host, port=service_port)
+    uvicorn.run(app, host=parameters.sservice_host, port=parameters.service_port)

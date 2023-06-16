@@ -8,6 +8,7 @@ class Parameters(BaseModel):
     bss_bert_url : str
     bss_pubs : List[int]
     timeout_seconds : float
+    max_text_len: int
 
 class SearchData(BaseModel):
     """"""
